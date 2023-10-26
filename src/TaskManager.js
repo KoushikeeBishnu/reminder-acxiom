@@ -1,9 +1,10 @@
-import './taskManager.css'
-import Task from './Task'
-import {useState, useEffect, useContext} from 'react'
-import {collection, query, orderBy, onSnapshot} from "firebase/firestore"
-import {db} from './firebase'
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
+import { useEffect, useState } from 'react'
 import AddTask from './AddTask'
+import Task from './Task'
+import { db } from './firebase'
+import './taskManager.css'
+
 
 function TaskManager({ userId, onLogout }) {
 
@@ -20,6 +21,12 @@ function TaskManager({ userId, onLogout }) {
       })))
     })
   },[])
+  
+  const [value, setValue] = useState("");
+  const handleLogout = () => {
+      localStorage.clear();   
+      window.location.reload()
+  };
 
   const current = new Date();
   const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
@@ -62,8 +69,9 @@ function TaskManager({ userId, onLogout }) {
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search Remainder" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn" style={{width:"6rem"}} type="submit">Search</button>
       </form>
+      <button className="btn solid bg-danger" onClick={handleLogout}>Logout</button>
     </div>
   </div>
 </nav>
